@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class ParkingLotManagement {
 
-    public int spaceAvailable = 1;
+    public int spaceAvailable = 2;
 
     static Driver getDriverDetailsFromUser() {
         String driverName, driverContact, driverCarNumber;

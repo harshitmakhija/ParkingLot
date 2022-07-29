@@ -14,10 +14,38 @@ class ParkingLotManagementTest {
     }
 
     @Test
-    void shouldReturnParkedIfSlotAvailable() {
-        String status=parkingLotManagement.parkMyCar();
+    void shouldReturnParkedIforFirstCar() {
+        String status=parkingLotManagement.GetStatus();
 
-        assert(status == "CAR PARKED");
+        assertEquals("CAR PARKED", status);
 
+    }
+
+    @Test
+    void shouldReturnParkedIforSecondCar() {
+        parkingLotManagement.GetStatus();
+        String status=parkingLotManagement.GetStatus();
+
+        assertEquals("CAR PARKED", status);
+
+    }
+
+    @Test
+    void shouldReturnNoSlotAvailableForThirdCar() {
+        parkingLotManagement.GetStatus();
+        parkingLotManagement.GetStatus();
+        String status=parkingLotManagement.GetStatus();
+
+        assertEquals("NO SLOT AVAILABLE", status);
+    }
+
+    @Test
+    void shouldReturnNoSlotAvailableForFourthCar() {
+        parkingLotManagement.GetStatus();
+        parkingLotManagement.GetStatus();
+        parkingLotManagement.GetStatus();
+        String status=parkingLotManagement.GetStatus();
+
+        assertEquals("NO SLOT AVAILABLE", status);
     }
 }
