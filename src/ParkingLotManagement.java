@@ -19,22 +19,31 @@ public class ParkingLotManagement {
          return new Driver(driverName, driverContact, driverCarNumber);
      }
 
-     static ParkingTicket createParkingTicket()
-     {
+    static ParkingTicket createParkingTicket()
+    {
         int parkingID = spaceAvailable ;
         spaceAvailable-=1;
 
         String checkInDate = "Random Date" ;
         String checkInTime = "Random Time" ;
 
-        System.out.println("CAR PARKED !! ");
         return new ParkingTicket(parkingID, checkInDate, checkInTime);
+    }
+
+     static String parkMyCar()
+     {
+         Driver driverObject = getDriverDetailsFromUser() ;
+         driverObject.parkingTicket = createParkingTicket();
+
+         return "CAR PARKED" ;
      }
 
      static boolean checkIfParkingSlotAvailable()
      {
          return spaceAvailable > 0 ;
      }
+
+
     public static void main(String [] args)
     {
         System.out.println("Welcome to the Parking Management System!");
@@ -42,9 +51,7 @@ public class ParkingLotManagement {
         if (checkIfParkingSlotAvailable()) {
             System.out.println("Space is Available, you can park") ;
 
-            Driver driverObject = getDriverDetailsFromUser() ;
-            driverObject.parkingTicket = createParkingTicket();
-
+            parkMyCar();
         }
         else{
             System.out.println("No Space Available!! Sorry");
