@@ -27,27 +27,34 @@ public class ParkingLotManagement {
         String checkInDate = "Random Date" ;
         String checkInTime = "Random Time" ;
 
-         return new ParkingTicket(parkingID, checkInDate, checkInTime);
+        System.out.println("CAR PARKED !! ");
+        return new ParkingTicket(parkingID, checkInDate, checkInTime);
      }
 
-
+     static boolean checkIfParkingSlotAvailable()
+     {
+         return spaceAvailable > 0 ;
+     }
     public static void main(String [] args)
     {
         System.out.println("Welcome to the Parking Management System!");
 
-        if (spaceAvailable == 0) {
-            System.out.println("No Space Available!! Sorry");
-            System.exit(0);
+        if (checkIfParkingSlotAvailable()) {
+            System.out.println("Space is Available, you can park") ;
+
+            Driver driverObject = getDriverDetailsFromUser() ;
+            driverObject.parkingTicket = createParkingTicket();
+
         }
         else{
-            System.out.println("Space is Available, you can park");
+            System.out.println("No Space Available!! Sorry");
+
         }
 
-        Driver driverObject = getDriverDetailsFromUser() ;
-        driverObject.parkingTicket = createParkingTicket();
 
 
 
-        System.out.println("HELLLOO");
+
+
     }
 }
