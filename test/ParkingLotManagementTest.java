@@ -11,7 +11,7 @@ class ParkingLotManagementTest {
 
      ParkingLotManagement getFullyParkedLot()
      {
-         ParkingLotManagement parkingLotObj = new ParkingLotManagement(2) ;
+         ParkingLotManagement parkingLotObj = new ParkingLotManagement(3) ;
 
          for(int i=0; i<parkingLotObj.getMaxSpace(); i++)
          {
@@ -73,4 +73,18 @@ class ParkingLotManagementTest {
 
          assertEquals("NO SPACE AVAILABLE", response);
     }
+
+    @Test
+    void shouldInformSecurityPersonnelIfParkingLotIsFull() {
+         ParkingLotManagement fullParked = getFullyParkedLot() ;
+
+         SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
+
+         fullParked.alertSecurityPersonnel(securityPersonnel);
+
+         String response = securityPersonnel.getStatusOfParkingLot() ;
+
+
+         assertEquals("PARKING LOT IS FULL", response);
+     }
 }

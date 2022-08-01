@@ -8,6 +8,14 @@ public class ParkingLotManagement {
         this.spaceAvailable = totalSpace ;
     }
 
+    void alertSecurityPersonnel(SecurityPersonnel securityPersonnel)
+    {
+        if(spaceAvailable != 0)
+            return ;
+
+        securityPersonnel.updateStatusOfParkingLot("PARKING LOT IS FULL");
+    }
+
     int getSpaceAvailable()
     {
         return this.spaceAvailable ;
@@ -31,6 +39,12 @@ public class ParkingLotManagement {
             return "NO SPACE AVAILABLE" ;
 
         spaceAvailable--;
+
+        if(spaceAvailable == 0 ) {
+            SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
+            alertSecurityPersonnel(securityPersonnel);
+        }
+
         car.setAsParked();
         return "CAR PARKED";
     }
