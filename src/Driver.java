@@ -1,16 +1,19 @@
 public class Driver {
-    String driverName ;
-    String driverContact ;
-    ParkingTicket parkingTicket ;
-    Car car;
+    private String driverName ;
+    private Car car;
 
-    Driver(String name, String contact, String carNumber)
+    void setCar(Car car)
+    {
+        this.car = car;
+    }
+    Car getCar()
+    {
+        return this.car;
+    }
+
+    Driver(String name)
     {
         this.driverName = name ;
-        this.driverContact = contact ;
-
-        Car carObj = new Car(carNumber) ;
-        this.car = carObj ;
     }
 
 }

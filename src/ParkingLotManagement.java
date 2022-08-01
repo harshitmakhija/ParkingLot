@@ -1,56 +1,46 @@
-import java.util.Scanner;
-
 public class ParkingLotManagement {
+    final private static int  MAX_SPACE = 3;
+    private int spaceAvailable = MAX_SPACE;
 
-    public int spaceAvailable = 2;
-
-    static Driver getDriverDetailsFromUser() {
-        String driverName, driverContact, driverCarNumber;
-
-        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
-        System.out.println("Enter Driver's Name : ");
-        driverName = scanner.next();
-        System.out.println("Enter Driver's Contact : ");
-        driverContact = scanner.next();
-        System.out.println("Enter Driver's Car Number : ");
-        driverCarNumber = scanner.next();
-
-        return new Driver(driverName, driverContact, driverCarNumber);
+    int getSpaceAvailable()
+    {
+        return this.spaceAvailable ;
     }
 
-    public ParkingTicket createParkingTicket() {
-        int parkingID = spaceAvailable;
-
-        String checkInDate = "Random Date";
-        String checkInTime = "Random Time";
-
-        return new ParkingTicket(parkingID, checkInDate, checkInTime);
+    int getMaxSpace()
+    {
+        return MAX_SPACE ;
     }
 
-    public String parkMyCar() {
+    public boolean checkIfParkingSlotAvailable() {
+        return getSpaceAvailable() > 0 ? true : false;
+    }
+
+    public String parkTheCar(Car car) {
+
+        if(car.checkIfCarIsParked() == true)
+            return "CAR IS ALREADY PARKED" ;
+
+        if(checkIfParkingSlotAvailable() == false)
+            return "NO SPACE AVAILABLE" ;
+
         spaceAvailable--;
+        car.setAsParked();
         return "CAR PARKED";
     }
 
+    public String unparkTheCar(Car car)
+    {
+        if(car.checkIfCarIsParked() == false)
+            return "CAR IS NOT YET PARKED" ;
 
-    public boolean checkIfParkingSlotAvailable() {
-        return spaceAvailable > 0 ? true : false;
+        spaceAvailable++ ;
+        car.setAsUnParked();
+        return "CAR UNPARKED";
     }
-
-    public String GetStatus() {
-        if (checkIfParkingSlotAvailable()) {
-            return parkMyCar();
-        } else {
-            return "NO SLOT AVAILABLE";
-        }
-    }
-
 
     public static void main(String[] args) {
-        System.out.println("Welcome to the Parking Management System!");
         ParkingLotManagement parkingLotManagement = new ParkingLotManagement();
-        parkingLotManagement.GetStatus();
-
 
     }
 }

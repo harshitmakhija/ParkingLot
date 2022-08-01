@@ -5,47 +5,72 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingLotManagementTest {
-
-
      ParkingLotManagement parkingLotManagement;
+     Driver driver;
+     Car car;
+
+     ParkingLotManagement getFullyParkedLot()
+     {
+         ParkingLotManagement parkingLotObj = new ParkingLotManagement() ;
+
+         for(int i=0; i<parkingLotObj.getMaxSpace(); i++)
+         {
+            Car tempCar = new Car("873DGD" + i) ;
+            parkingLotObj.parkTheCar(tempCar) ;
+         }
+
+         return  parkingLotObj ;
+     }
+
+
     @BeforeEach
     void setUp() {
+        driver = new Driver("Asmit") ;
+        car = new Car("DL2194 GG") ;
+        driver.setCar(car);
         parkingLotManagement =new ParkingLotManagement();
     }
 
     @Test
-    void shouldReturnParkedIforFirstCar() {
-        String status=parkingLotManagement.GetStatus();
+    void shouldParkTheCar() {
+        String response = parkingLotManagement.parkTheCar(driver.getCar()) ;
 
-        assertEquals("CAR PARKED", status);
+        assertEquals("CAR PARKED", response);
+    }
+
+    @Test
+    void shouldUnparkTheCarIfParked()
+    {
+        Car car = driver.getCar();
+        parkingLotManagement.parkTheCar(car) ;
+
+        String response = parkingLotManagement.unparkTheCar(car) ;
+
+        assertEquals("CAR UNPARKED", response);
+    }
+    @Test
+    void shouldNotParkTheCarIfAlreadyParked() {
+        parkingLotManagement.parkTheCar(driver.getCar());
+
+       String response =  parkingLotManagement.parkTheCar(driver.getCar()) ;
+       assertEquals("CAR IS ALREADY PARKED", response);
+    }
+
+    @Test
+    void shouldNotUnparkTheCarIfCarIsNotParked() {
+        String response = parkingLotManagement.unparkTheCar(driver.getCar());
+
+        assertEquals("CAR IS NOT YET PARKED", response);
 
     }
 
     @Test
-    void shouldReturnParkedIforSecondCar() {
-        parkingLotManagement.GetStatus();
-        String status=parkingLotManagement.GetStatus();
+    void shouldNotAllowParkingIfSpaceIsFull() {
 
-        assertEquals("CAR PARKED", status);
+         ParkingLotManagement fullyParked = getFullyParkedLot() ;
 
-    }
+         String response = fullyParked.parkTheCar(driver.getCar()) ;
 
-    @Test
-    void shouldReturnNoSlotAvailableForThirdCar() {
-        parkingLotManagement.GetStatus();
-        parkingLotManagement.GetStatus();
-        String status=parkingLotManagement.GetStatus();
-
-        assertEquals("NO SLOT AVAILABLE", status);
-    }
-
-    @Test
-    void shouldReturnNoSlotAvailableForFourthCar() {
-        parkingLotManagement.GetStatus();
-        parkingLotManagement.GetStatus();
-        parkingLotManagement.GetStatus();
-        String status=parkingLotManagement.GetStatus();
-
-        assertEquals("NO SLOT AVAILABLE", status);
+         assertEquals("NO SPACE AVAILABLE", response);
     }
 }
