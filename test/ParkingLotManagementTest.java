@@ -11,7 +11,7 @@ class ParkingLotManagementTest {
 
      ParkingLotManagement getFullyParkedLot()
      {
-         ParkingLotManagement parkingLotObj = new ParkingLotManagement() ;
+         ParkingLotManagement parkingLotObj = new ParkingLotManagement(2) ;
 
          for(int i=0; i<parkingLotObj.getMaxSpace(); i++)
          {
@@ -28,7 +28,7 @@ class ParkingLotManagementTest {
         driver = new Driver("Asmit") ;
         car = new Car("DL2194 GG") ;
         driver.setCar(car);
-        parkingLotManagement =new ParkingLotManagement();
+        parkingLotManagement =new ParkingLotManagement(2);
     }
 
     @Test

@@ -1,6 +1,12 @@
 public class ParkingLotManagement {
-    final private static int  MAX_SPACE = 3;
-    private int spaceAvailable = MAX_SPACE;
+    private int  MAX_SPACE ;
+    private int spaceAvailable;
+
+    ParkingLotManagement(int totalSpace)
+    {
+        this.MAX_SPACE = totalSpace ;
+        this.spaceAvailable = totalSpace ;
+    }
 
     int getSpaceAvailable()
     {
@@ -40,7 +46,6 @@ public class ParkingLotManagement {
     }
 
     public static void main(String[] args) {
-        ParkingLotManagement parkingLotManagement = new ParkingLotManagement();
-
+        ParkingLotManagement parkingLotManagement = new ParkingLotManagement(2);
     }
 }
