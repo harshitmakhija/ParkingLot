@@ -4,11 +4,11 @@ public class ParkingLotManagement {
 
     private Publisher publisher ;
 
-    ParkingLotManagement(int totalSpace)
+    ParkingLotManagement(int totalSpace, Publisher publisher)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
-        this.publisher = new Publisher() ;
+        this.publisher = publisher ;
     }
 
     void alertThePublished()
@@ -44,10 +44,7 @@ public class ParkingLotManagement {
         spaceAvailable--;
 
         if(spaceAvailable == 0 ) {
-//            SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
-//            alertSecurityPersonnel(securityPersonnel);
-
-            // TODO:  ALERT THE SECURITY PERSONNEL BY PASSING THE SECURITY PERSONNEL TO THE ALERT_SECURITY FUNCTION !!
+            publisher.notifyParkingLotFull();
         }
 
         car.setAsParked();
@@ -65,6 +62,6 @@ public class ParkingLotManagement {
     }
 
     public static void main(String[] args) {
-        ParkingLotManagement parkingLotManagement = new ParkingLotManagement(2);
+
     }
 }
