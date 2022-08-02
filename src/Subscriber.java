@@ -1,8 +1,16 @@
 public class Subscriber {
     private boolean  isParkingLotFull;
+    private String subscriberName ;
 
-    public void update(boolean isParkingLotFull) {
-        this.isParkingLotFull=true;
+
+    Subscriber(String name)
+    {
+        this.subscriberName = name ;
+    }
+
+    public void update(boolean isParkingLotFull)
+    {
+        this.isParkingLotFull = isParkingLotFull;
     }
 
 }
