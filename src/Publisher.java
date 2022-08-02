@@ -21,9 +21,9 @@ public class Publisher {
 
     void notifyParkingLotFull()
     {
-        for(int i=0; i<mySubscribers.size() ; i++)
+        for(Subscriber subscriber: mySubscribers)
         {
-            mySubscribers.get(i).update(true) ;
+            subscriber.update(true) ;
         }
     }
 
