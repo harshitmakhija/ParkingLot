@@ -11,7 +11,7 @@ class ParkingLotManagementTest {
 
      ParkingLotManagement getFullyParkedLot()
      {
-         ParkingLotManagement parkingLotObj = new ParkingLotManagement(3, new Publisher()) ;
+         ParkingLotManagement parkingLotObj = new ParkingLotManagement(3) ;
 
          for(int i=0; i<parkingLotObj.getMaxSpace(); i++)
          {
@@ -28,7 +28,7 @@ class ParkingLotManagementTest {
         driver = new Driver("Asmit") ;
         car = new Car("DL2194 GG") ;
         driver.setCar(car);
-        parkingLotManagement =new ParkingLotManagement(2, new Publisher());
+        parkingLotManagement =new ParkingLotManagement(2);
     }
 
     @Test
@@ -72,5 +72,27 @@ class ParkingLotManagementTest {
          String response = fullyParked.parkTheCar(driver.getCar()) ;
 
          assertEquals("NO SPACE AVAILABLE", response);
+    }
+
+    @Test
+    void shouldNotifyAllTheSubscribersThatLotIsFull() {
+        ParkingLotManagement parkingLot = new ParkingLotManagement(2) ;
+        Subscriber subscriber1 = new Subscriber("Asmit") ;
+        Subscriber subscriber2 = new Subscriber("Harshit") ;
+        parkingLot.subscribe(subscriber1);
+        parkingLot.subscribe(subscriber2);
+
+        for(int i=0; i<parkingLot.getMaxSpace(); i++)
+        {
+            Car tempCar = new Car("873DGD" + i) ;
+            parkingLot.parkTheCar(tempCar) ;
+        }
+
+
+        Boolean allSubscriberGotNotification = parkingLot.allSubscribersGotNotification();
+
+
+
+        assertTrue(allSubscriberGotNotification);
     }
 }

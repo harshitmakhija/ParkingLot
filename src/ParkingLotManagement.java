@@ -1,22 +1,16 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingLotManagement {
     private int  MAX_SPACE ;
     private int spaceAvailable;
 
-    private Publisher publisher ;
+    private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
-    ParkingLotManagement(int totalSpace, Publisher publisher)
+    ParkingLotManagement(int totalSpace)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
-        this.publisher = publisher ;
-    }
-
-    void alertThePublisher()
-    {
-        if(spaceAvailable != 0)
-            return ;
-
-        publisher.updateStatus();
     }
 
     private int getSpaceAvailable()
@@ -44,7 +38,7 @@ public class ParkingLotManagement {
         spaceAvailable--;
 
         if(spaceAvailable == 0 ) {
-            publisher.notifyParkingLotFull();
+           notifyParkingLotFull();
         }
 
         car.setAsParked();
@@ -60,5 +54,34 @@ public class ParkingLotManagement {
         car.setAsUnParked();
         return "CAR UNPARKED";
     }
-    
+
+    public void subscribe(Subscriber subscriber)
+    {
+        mySubscribers.add(subscriber) ;
+    }
+
+    public void unsubscribe(Subscriber subscriber)
+    {
+        mySubscribers.remove(subscriber);
+    }
+
+    private void notifyParkingLotFull()
+    {
+        for(Subscriber subscriber: mySubscribers)
+        {
+            subscriber.update(true) ;
+        }
+    }
+
+    boolean allSubscribersGotNotification()
+    {
+        boolean allGotNotified = true ;
+
+        for(Subscriber subscriber: mySubscribers)
+        {
+            allGotNotified = allGotNotified & subscriber.getNotificationStatus() ;
+        }
+
+        return allGotNotified ;
+    }
 }
