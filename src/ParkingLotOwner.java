@@ -1,11 +1,7 @@
-public class SecurityPersonnel implements Subscriber{
+public class ParkingLotOwner {
     private String name ;
 
     public boolean ParkingLotFullNotification() {
         return true;
     }
-
-
-
-
 }
