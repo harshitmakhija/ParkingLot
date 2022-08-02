@@ -11,7 +11,7 @@ public class ParkingLotManagement {
         this.publisher = publisher ;
     }
 
-    void alertThePublished()
+    void alertThePublisher()
     {
         if(spaceAvailable != 0)
             return ;
@@ -19,7 +19,7 @@ public class ParkingLotManagement {
         publisher.updateStatus();
     }
 
-    int getSpaceAvailable()
+    private int getSpaceAvailable()
     {
         return this.spaceAvailable ;
     }
@@ -60,8 +60,5 @@ public class ParkingLotManagement {
         car.setAsUnParked();
         return "CAR UNPARKED";
     }
-
-    public static void main(String[] args) {
-
-    }
+    
 }
