@@ -2,18 +2,21 @@ public class ParkingLotManagement {
     private int  MAX_SPACE ;
     private int spaceAvailable;
 
+    private Publisher publisher ;
+
     ParkingLotManagement(int totalSpace)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
+        this.publisher = new Publisher() ;
     }
 
-    void alertSecurityPersonnel(SecurityPersonnel securityPersonnel)
+    void alertThePublished()
     {
         if(spaceAvailable != 0)
             return ;
 
-        securityPersonnel.updateStatusOfParkingLot("PARKING LOT IS FULL");
+        publisher.updateStatus();
     }
 
     int getSpaceAvailable()
@@ -41,8 +44,10 @@ public class ParkingLotManagement {
         spaceAvailable--;
 
         if(spaceAvailable == 0 ) {
-            SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
-            alertSecurityPersonnel(securityPersonnel);
+//            SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
+//            alertSecurityPersonnel(securityPersonnel);
+
+            // TODO:  ALERT THE SECURITY PERSONNEL BY PASSING THE SECURITY PERSONNEL TO THE ALERT_SECURITY FUNCTION !!
         }
 
         car.setAsParked();

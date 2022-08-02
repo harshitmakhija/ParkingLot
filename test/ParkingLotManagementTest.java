@@ -74,17 +74,4 @@ class ParkingLotManagementTest {
          assertEquals("NO SPACE AVAILABLE", response);
     }
 
-    @Test
-    void shouldInformSecurityPersonnelIfParkingLotIsFull() {
-         ParkingLotManagement fullParked = getFullyParkedLot() ;
-
-         SecurityPersonnel securityPersonnel = new SecurityPersonnel("Bahadur") ;
-
-         fullParked.alertSecurityPersonnel(securityPersonnel);
-
-         String response = securityPersonnel.getStatusOfParkingLot() ;
-
-
-         assertEquals("PARKING LOT IS FULL", response);
-     }
 }
