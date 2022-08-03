@@ -8,6 +8,9 @@ class ParkingLotManagementTest {
      ParkingLotManagement parkingLotManagement;
      Car car;
 
+     Attendant attendant;
+
+
      void fillTheParkingLotFully (ParkingLotManagement parkingLot)
      {
          for(int carCount=0; carCount<parkingLot.getMaxSpace(); carCount++)
@@ -23,6 +26,7 @@ class ParkingLotManagementTest {
     void setUp() {
         car = new Car("DL2194 GG") ;
         parkingLotManagement =new ParkingLotManagement(2);
+        attendant =new Attendant(3,3);
     }
 
     @Test
@@ -101,8 +105,33 @@ class ParkingLotManagementTest {
         parkingLotManagement.unparkTheCar(car1);
 
         Boolean statusWhenEmpty = subscriber1.getParkingLotStatus() ;
+        // #TODO
+    }
 
 
+    @Test
+    void shouldReturnTheParkingLotIdThatIsNotFull()
+    {
+        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
+        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
+
+        int emptyParkingLotNumber = attendant.getLotNumberThatHaveSpace();
+
+        assertEquals(1, emptyParkingLotNumber);
+    }
+
+
+    @Test
+    void shouldReturnMinus1WhenEveryParkingLotIsFull()
+    {
+        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
+        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
+        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
+
+        int emptyParkingLotNumber = attendant.getLotNumberThatHaveSpace();
+
+
+        assertEquals(-1, emptyParkingLotNumber);
     }
 
 }
