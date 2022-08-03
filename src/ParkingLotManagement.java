@@ -61,10 +61,10 @@ public class ParkingLotManagement {
         mySubscribers.add(subscriber) ;
     }
 
-    public void unsubscribe(Subscriber subscriber)
-    {
-        mySubscribers.remove(subscriber);
-    }
+//    public void unsubscribe(Subscriber subscriber)
+//    {
+//        mySubscribers.remove(subscriber);
+//    }
 
     private void notifyParkingLotFull()
     {

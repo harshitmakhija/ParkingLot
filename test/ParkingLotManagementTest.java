@@ -6,34 +6,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingLotManagementTest {
      ParkingLotManagement parkingLotManagement;
-     Driver driver;
      Car car;
 
-     ParkingLotManagement getFullyParkedLot()
+     void fillTheParkingLotFully (ParkingLotManagement parkingLot)
      {
-         ParkingLotManagement parkingLotObj = new ParkingLotManagement(3) ;
-
-         for(int i=0; i<parkingLotObj.getMaxSpace(); i++)
+         for(int carCount=0; carCount<parkingLot.getMaxSpace(); carCount++)
          {
-            Car tempCar = new Car("873DGD" + i) ;
-            parkingLotObj.parkTheCar(tempCar) ;
+            Car tempCar = new Car("873DGD" + carCount) ;
+            parkingLot.parkTheCar(tempCar) ;
          }
-
-         return  parkingLotObj ;
+         return ;
      }
 
 
     @BeforeEach
     void setUp() {
-        driver = new Driver("Asmit") ;
         car = new Car("DL2194 GG") ;
-        driver.setCar(car);
         parkingLotManagement =new ParkingLotManagement(2);
     }
 
     @Test
     void shouldParkTheCar() {
-        String response = parkingLotManagement.parkTheCar(driver.getCar()) ;
+        String response = parkingLotManagement.parkTheCar(car) ;
+
 
         assertEquals("CAR PARKED", response);
     }
@@ -41,57 +36,73 @@ class ParkingLotManagementTest {
     @Test
     void shouldUnparkTheCarIfParked()
     {
-        Car car = driver.getCar();
         parkingLotManagement.parkTheCar(car) ;
 
         String response = parkingLotManagement.unparkTheCar(car) ;
+
 
         assertEquals("CAR UNPARKED", response);
     }
     @Test
     void shouldNotParkTheCarIfAlreadyParked() {
-        parkingLotManagement.parkTheCar(driver.getCar());
+         parkingLotManagement.parkTheCar(car);
+       String response =  parkingLotManagement.parkTheCar(car) ;
 
-       String response =  parkingLotManagement.parkTheCar(driver.getCar()) ;
+
        assertEquals("CAR IS ALREADY PARKED", response);
     }
 
     @Test
     void shouldNotUnparkTheCarIfCarIsNotParked() {
-        String response = parkingLotManagement.unparkTheCar(driver.getCar());
+        String response = parkingLotManagement.unparkTheCar(car);
+
 
         assertEquals("CAR IS NOT YET PARKED", response);
-
     }
 
     @Test
     void shouldNotAllowParkingIfSpaceIsFull() {
+        fillTheParkingLotFully(parkingLotManagement) ;
 
-         ParkingLotManagement fullyParked = getFullyParkedLot() ;
+         String response = parkingLotManagement.parkTheCar(car) ;
 
-         String response = fullyParked.parkTheCar(driver.getCar()) ;
 
          assertEquals("NO SPACE AVAILABLE", response);
     }
 
     @Test
-    void shouldNotifyAllTheSubscribersThatLotIsFull() {
-        ParkingLotManagement parkingLot = new ParkingLotManagement(2) ;
+    void shouldReturnTrueWhenAllTheSubscribersGetTheNotificationThatLotIsFull() {
+
         Subscriber subscriber1 = new ParkingLotOwner("Asmit") ;
         Subscriber subscriber2 = new SecurityPersonnel("Harshit") ;
-        parkingLot.subscribe(subscriber1);
-        parkingLot.subscribe(subscriber2);
+        parkingLotManagement.subscribe(subscriber1);
+        parkingLotManagement.subscribe(subscriber2);
 
-        for(int i=0; i<parkingLot.getMaxSpace(); i++)
-        {
-            Car tempCar = new Car("873DGD" + i) ;
-            parkingLot.parkTheCar(tempCar) ;
-        }
+        fillTheParkingLotFully(parkingLotManagement) ;
 
 
-        Boolean allSubscriberGotNotification = parkingLot.allSubscribersGotNotification();
-
-
-        assertTrue(allSubscriberGotNotification);
+        Boolean eachSubscriberGotNotification = parkingLotManagement.allSubscribersGotNotification();
+        assertTrue(eachSubscriberGotNotification);
     }
+
+    @Test
+    void shouldReturnTrueWhenParkingLotWasFullEarlierAndNowHaveSpaceAgainAndOwnerIsNotified()
+    {
+        Subscriber subscriber1 = new ParkingLotOwner("Asmit") ;
+        parkingLotManagement.subscribe(subscriber1);
+
+        Car car1 = new Car("493SDJN");
+        Car car2 = new Car("DSB4734") ;
+
+        parkingLotManagement.parkTheCar(car1) ;
+        parkingLotManagement.parkTheCar(car2) ;
+
+        Boolean statusWhenFull = subscriber1.getParkingLotStatus() ;
+        parkingLotManagement.unparkTheCar(car1);
+
+        Boolean statusWhenEmpty = subscriber1.getParkingLotStatus() ;
+
+
+    }
+
 }
