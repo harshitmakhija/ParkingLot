@@ -77,8 +77,8 @@ class ParkingLotManagementTest {
     @Test
     void shouldNotifyAllTheSubscribersThatLotIsFull() {
         ParkingLotManagement parkingLot = new ParkingLotManagement(2) ;
-        Subscriber subscriber1 = new Subscriber("Asmit") ;
-        Subscriber subscriber2 = new Subscriber("Harshit") ;
+        Subscriber subscriber1 = new ParkingLotOwner("Asmit") ;
+        Subscriber subscriber2 = new SecurityPersonnel("Harshit") ;
         parkingLot.subscribe(subscriber1);
         parkingLot.subscribe(subscriber2);
 
@@ -90,7 +90,6 @@ class ParkingLotManagementTest {
 
 
         Boolean allSubscriberGotNotification = parkingLot.allSubscribersGotNotification();
-
 
 
         assertTrue(allSubscriberGotNotification);

@@ -24,6 +24,7 @@ public class ParkingLotManagement {
     }
 
     public boolean checkIfParkingSlotAvailable() {
+
         return getSpaceAvailable() > 0 ? true : false;
     }
 
@@ -69,7 +70,7 @@ public class ParkingLotManagement {
     {
         for(Subscriber subscriber: mySubscribers)
         {
-            subscriber.update(true) ;
+            subscriber.updateParkingStatus(true);
         }
     }
 
@@ -79,7 +80,7 @@ public class ParkingLotManagement {
 
         for(Subscriber subscriber: mySubscribers)
         {
-            allGotNotified = allGotNotified & subscriber.getNotificationStatus() ;
+            allGotNotified = allGotNotified & subscriber.getParkingLotStatus() ;
         }
 
         return allGotNotified ;

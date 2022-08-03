@@ -1,7 +1,21 @@
-public class ParkingLotOwner {
+public class ParkingLotOwner implements Subscriber {
     private String name ;
+    private Boolean isParkingLotFull ;
 
-    public boolean ParkingLotFullNotification() {
-        return true;
+    ParkingLotOwner(String ownerName)
+    {
+        this.name = ownerName ;
+        this.isParkingLotFull = false ;
     }
+
+    public Boolean getParkingLotStatus()
+    {
+        return this.isParkingLotFull ;
+    }
+
+    public void updateParkingStatus(Boolean update)
+    {
+        this.isParkingLotFull = update;
+    }
+
 }
