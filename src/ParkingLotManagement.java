@@ -4,13 +4,14 @@ import java.util.List;
 public class ParkingLotManagement {
     private int  MAX_SPACE ;
     private int spaceAvailable;
-
+    private int parkingLotID ;
     private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
-    ParkingLotManagement(int totalSpace)
+    ParkingLotManagement(int totalSpace, int ID)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
+        this.parkingLotID = ID;
     }
 
     private int getSpaceAvailable()
@@ -21,6 +22,10 @@ public class ParkingLotManagement {
     int getMaxSpace()
     {
         return MAX_SPACE ;
+    }
+
+    int getParkingLotID() {
+        return this.parkingLotID ;
     }
 
     public boolean checkIfParkingSlotAvailable() {
@@ -46,10 +51,21 @@ public class ParkingLotManagement {
         return "CAR PARKED";
     }
 
+    public void notifyOwnerThatSpaceIsAvailableAgain(){
+        for (Subscriber subscriber : mySubscribers){
+            if(subscriber.isOwner()){
+                subscriber.updateParkingStatus(false);
+            }
+        }
+    }
+
     public String unparkTheCar(Car car)
     {
-        if(car.checkIfCarIsParked() == false)
+        if(car.checkIfCarIsParked() == false )
             return "CAR IS NOT YET PARKED" ;
+
+        if(spaceAvailable == 0)
+            notifyOwnerThatSpaceIsAvailableAgain();
 
         spaceAvailable++ ;
         car.setAsUnParked();
@@ -60,11 +76,6 @@ public class ParkingLotManagement {
     {
         mySubscribers.add(subscriber) ;
     }
-
-//    public void unsubscribe(Subscriber subscriber)
-//    {
-//        mySubscribers.remove(subscriber);
-//    }
 
     private void notifyParkingLotFull()
     {
@@ -80,7 +91,7 @@ public class ParkingLotManagement {
 
         for(Subscriber subscriber: mySubscribers)
         {
-            allGotNotified = allGotNotified & subscriber.getParkingLotStatus() ;
+            allGotNotified = allGotNotified & subscriber.isParkingLotFull() ;
         }
 
         return allGotNotified ;

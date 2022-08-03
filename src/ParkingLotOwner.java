@@ -7,8 +7,12 @@ public class ParkingLotOwner implements Subscriber {
         this.name = ownerName ;
         this.isParkingLotFull = false ;
     }
+    public Boolean isOwner()
+    {
+        return true;
+    }
 
-    public Boolean getParkingLotStatus()
+    public Boolean isParkingLotFull()
     {
         return this.isParkingLotFull ;
     }

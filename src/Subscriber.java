@@ -1,6 +1,7 @@
 public interface Subscriber {
-     Boolean getParkingLotStatus();
-
+     Boolean isParkingLotFull();
+     Boolean isOwner();
      void updateParkingStatus(Boolean update) ;
+
 
 }

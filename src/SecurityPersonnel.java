@@ -8,7 +8,11 @@ public class SecurityPersonnel implements Subscriber{
         this.isParkingLotFull = false ;
     }
 
-    public Boolean getParkingLotStatus()
+    public Boolean isOwner()
+    {
+        return false ;
+    }
+    public Boolean isParkingLotFull()
     {
         return this.isParkingLotFull ;
     }
