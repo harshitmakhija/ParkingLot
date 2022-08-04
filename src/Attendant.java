@@ -27,10 +27,10 @@ public class Attendant {
 
     public ParkingLotManagement getParkingLot()
     {
-        for(int i=0; i<totalParkingLot ; i++)
+        for(int parkinglot = 0; parkinglot<totalParkingLot ; parkinglot++)
         {
-            if( parkingLotManagementList.get(i).checkIfParkingSlotAvailable() )
-                return parkingLotManagementList.get(i) ;
+            if( parkingLotManagementList.get(parkinglot).checkIfParkingSlotAvailable() )
+                return parkingLotManagementList.get(parkinglot) ;
         }
 
         return null ;
