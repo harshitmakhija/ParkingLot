@@ -2,19 +2,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingLotManagement {
-    private int  MAX_SPACE ;
+    private final int  MAX_SPACE ;
     private int spaceAvailable;
-    private int parkingLotID ;
+    private static int idCounter ;
+    private final int parkingLotID ;
     private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
-    ParkingLotManagement(int totalSpace, int ID)
+    ParkingLotManagement(int totalSpace)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
-        this.parkingLotID = ID;
+        this.parkingLotID = idCounter++ ;
     }
 
-    private int getSpaceAvailable()
+    public int getSpaceAvailable()
     {
         return this.spaceAvailable ;
     }
@@ -25,20 +26,20 @@ public class ParkingLotManagement {
     }
 
     int getParkingLotID() {
-        return this.parkingLotID ;
+        return parkingLotID ;
     }
 
     public boolean checkIfParkingSlotAvailable() {
 
-        return getSpaceAvailable() > 0 ? true : false;
+        return getSpaceAvailable() > 0 ;
     }
 
     public String parkTheCar(Car car) {
 
-        if(car.checkIfCarIsParked() == true)
+        if(car.checkIfCarIsParked() )
             return "CAR IS ALREADY PARKED" ;
 
-        if(checkIfParkingSlotAvailable() == false)
+        if(!checkIfParkingSlotAvailable())
             return "NO SPACE AVAILABLE" ;
 
         spaceAvailable--;
@@ -61,7 +62,7 @@ public class ParkingLotManagement {
 
     public String unparkTheCar(Car car)
     {
-        if(car.checkIfCarIsParked() == false )
+        if(!car.checkIfCarIsParked())
             return "CAR IS NOT YET PARKED" ;
 
         if(spaceAvailable == 0)

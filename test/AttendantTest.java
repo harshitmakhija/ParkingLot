@@ -1,4 +1,8 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AttendantTest {
@@ -10,100 +14,66 @@ public class AttendantTest {
         }
     }
 
+    ArrayList<ParkingLotManagement> getListOfEmptyParkingLots(int numberOfParkingLots, int spaceInEachLot)
+    {
+        ArrayList<ParkingLotManagement> parkingLotManagementsList  = new ArrayList<>();
 
-    @Test
-    void shouldReturnAParkingLotThatIsNotFull() {
-        Attendant attendant = new Attendant(3, 3);
-
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
-
-        ParkingLotManagement parkingLot = attendant.getParkingLot();
-
-
-
-        assertNotNull(parkingLot);
+        for(int parkingLot = 0 ; parkingLot < numberOfParkingLots ; parkingLot++)
+        {
+            parkingLotManagementsList.add(new ParkingLotManagement(spaceInEachLot) );
+        }
+        return parkingLotManagementsList ;
     }
 
-
-    @Test
-    void shouldReturnNullWhenEveryParkingLotIsFull() {
-        Attendant attendant = new Attendant(3, 3);
-
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
-
-        ParkingLotManagement parkingLot = attendant.getParkingLot();
-
-
-
-        assertNull(parkingLot);
+    private  Attendant attendant ;
+    @BeforeEach
+    void setUp() {
+        attendant = new Attendant();
     }
 
     @Test
-    void shouldReturnCarIsParkedAtParkingLot1() {
-        Attendant attendant = new Attendant(3, 3);
+    void shouldNotParkTheCarIfNoSpaceIsAvailable() {
+        ArrayList<ParkingLotManagement> parkingLotManagementList = getListOfEmptyParkingLots(3,3) ;
 
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
+        for(ParkingLotManagement parkingLot : parkingLotManagementList) {
+            fillTheParkingLotFully(parkingLot);
+            attendant.AssignParkingLot(parkingLot);
+        }
 
-        Car car = new Car("ADBI232");
-        String response = attendant.parkTheCarInTheParkingLot(car);
-
-
-        assertEquals("CAR IS PARKED AT PARKING LOT 1", response);
-    }
-
-    @Test
-    void shouldReturnNoSpaceAvailable() {
-        Attendant attendant = new Attendant(3, 3);
-
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(2));
 
         Car car = new Car("NEF4435");
-        String response = attendant.parkTheCarInTheParkingLot(car);
+        ParkResponse response = attendant.parkTheCarInTheParkingLot(car);
 
 
-        assertEquals("NO SPACE AVAILABLE", response);
+
+
+        assertFalse( response.successfullyParked);
+        assertEquals(-1,response.parkingLotID);
+        assertEquals("NO SPACE AVAILABLE", response.additionalComments);
     }
 
     @Test
-    void shouldReturnParkingLotID1WhenSpaceIsAvailableAgain() {
-        Attendant attendant = new Attendant(3, 2);
-        fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
+    void shouldUnparkTheCarFrom3rdParkingLot() {
+        ArrayList<ParkingLotManagement> emptyParkingLotList = getListOfEmptyParkingLots(3,3) ;
 
-        Car car1AtParkingLot1 = new Car("NEES232");
-        Car car2AtParkingLot1 = new Car("TUS232");
-
-        attendant.parkTheCarInTheParkingLot(car1AtParkingLot1);
-        attendant.parkTheCarInTheParkingLot(car2AtParkingLot1);
-
-        int parkingLotIdWhenLot0AndLot1isFull = attendant.getParkingLot().getParkingLotID();
-
-        attendant.getParkingLotManagementList().get(1).unparkTheCar(car1AtParkingLot1);
-
-        int parkingLotIdAfterUnParkingFromLot1 = attendant.getParkingLot().getParkingLotID();
-
-
-
-        assertEquals(2, parkingLotIdWhenLot0AndLot1isFull);
-        assertEquals(1, parkingLotIdAfterUnParkingFromLot1);
-    }
-
-    @Test
-    void shouldReturnCarIsUnparkedFromParkingLot2() {
-        Attendant attendant = new Attendant(3, 3);
+        for(ParkingLotManagement parkingLot : emptyParkingLotList) {
+            attendant.AssignParkingLot(parkingLot);
+        }
         fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
         fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
 
         Car car = new Car("CIN383");
         attendant.parkTheCarInTheParkingLot(car);
 
-        String response = attendant.unparkTheCarFromTheParkingLot(car);
 
-        assertEquals("CAR IS UNPARKED FROM PARKING LOT 2", response);
+
+
+        UnparkResponse response = attendant.unparkTheCarFromTheParkingLot(car);
+
+
+
+
+        assertTrue(response.successfullyUnparked);
+        assertEquals("CAR IS UNPARKED FROM PARKING LOT 2" , response.additionalComments);
     }
 }

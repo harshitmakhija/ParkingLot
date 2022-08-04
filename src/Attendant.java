@@ -3,20 +3,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Attendant {
-    private int totalParkingLot ;
-    private List<ParkingLotManagement> parkingLotManagementList = new ArrayList<>() ;
+    public List<ParkingLotManagement> parkingLotManagementList = new ArrayList<>() ;
 
     private HashMap<Car,ParkingLotManagement> carVsLotHashmap = new HashMap<>() ;
 
-    Attendant(int totalParkingLot, int spaceInEachLot)
+    void AssignParkingLot(ParkingLotManagement parkingLot)
     {
-        this.totalParkingLot = totalParkingLot ;
-
-        for(int parkingLotCount = 0 ; parkingLotCount < totalParkingLot ; parkingLotCount++)
-        {
-            ParkingLotManagement parkingLotManagement = new ParkingLotManagement(spaceInEachLot, parkingLotCount );
-            parkingLotManagementList.add(parkingLotManagement) ;
-        }
+        parkingLotManagementList.add(parkingLot) ;
     }
 
     public List<ParkingLotManagement> getParkingLotManagementList()
@@ -24,43 +17,65 @@ public class Attendant {
         return this.parkingLotManagementList ;
     }
 
-
-    public ParkingLotManagement getParkingLot()
+    public ParkingLotManagement getFreeParkingLot()
     {
-        for(int parkinglot = 0; parkinglot<totalParkingLot ; parkinglot++)
+        ParkingLotManagement parkingLot = null;
+        int maxSpaceAvailable = 0;
+
+        for(int index = 0; index <parkingLotManagementList.size() ; index++)
         {
-            if( parkingLotManagementList.get(parkinglot).checkIfParkingSlotAvailable() )
-                return parkingLotManagementList.get(parkinglot) ;
+            int spaceAvailable =  parkingLotManagementList.get(index).getSpaceAvailable() ;
+
+            if(maxSpaceAvailable < spaceAvailable) {
+                maxSpaceAvailable = spaceAvailable;
+                parkingLot = parkingLotManagementList.get(index);
+            }
         }
 
-        return null ;
+        return parkingLot ;
     }
 
-    public String parkTheCarInTheParkingLot(Car car)
+    public ParkResponse parkTheCarInTheParkingLot(Car car)
     {
-        ParkingLotManagement parkingLot = getParkingLot() ;
+        ParkResponse response = new ParkResponse();
+
+        ParkingLotManagement parkingLot = getFreeParkingLot() ;
 
         if( parkingLot == null)
-            return "NO SPACE AVAILABLE" ;
+        {
+            response.parkingLotID = -1 ;
+            response.successfullyParked = false ;
+            response.additionalComments = "NO SPACE AVAILABLE" ;
+            return response ;
+        }
 
         parkingLot.parkTheCar(car) ;
 
         carVsLotHashmap.put(car,parkingLot) ;
 
-        return "CAR IS PARKED AT PARKING LOT " + parkingLot.getParkingLotID() ;
+        response.successfullyParked = true ;
+        response.parkingLotID = parkingLot.getParkingLotID() ;
+        response.additionalComments = "CAR WAS PARKED SUCCESSFULLY" ;
+        return  response ;
     }
 
-    public String unparkTheCarFromTheParkingLot(Car car)
-    {
+    public UnparkResponse unparkTheCarFromTheParkingLot(Car car)
+    {   UnparkResponse response = new UnparkResponse();
+
         if( !carVsLotHashmap.containsKey(car) )
-            return "CAR NOT FOUND!" ;
+        {
+            response.additionalComments = "CAR NOT FOUND!" ;
+            response.successfullyUnparked = false ;
+            return response ;
+        }
 
         ParkingLotManagement parkingLot = carVsLotHashmap.get(car) ;
-
         parkingLot.unparkTheCar(car) ;
-
         carVsLotHashmap.remove(car) ;
 
-        return "CAR IS UNPARKED FROM PARKING LOT " + parkingLot.getParkingLotID() ;
+        response.successfullyUnparked = true ;
+        response.additionalComments = "CAR IS UNPARKED FROM PARKING LOT " + parkingLot.getParkingLotID() ;
+
+       return response ;
     }
 }

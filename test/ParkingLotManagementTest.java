@@ -21,7 +21,7 @@ class ParkingLotManagementTest {
     @BeforeEach
     void setUp() {
         car = new Car("DL2194 GG") ;
-        parkingLotManagement =new ParkingLotManagement(2, 777);
+        parkingLotManagement =new ParkingLotManagement(2);
     }
 
     @Test
