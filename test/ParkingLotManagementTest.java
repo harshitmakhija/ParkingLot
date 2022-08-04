@@ -21,7 +21,7 @@ class ParkingLotManagementTest {
     @BeforeEach
     void setUp() {
         car = new Car("DL2194 GG") ;
-        parkingLotManagement =new ParkingLotManagement(2);
+        parkingLotManagement =new ParkingLotManagement(2, 777);
     }
 
     @Test
@@ -78,7 +78,7 @@ class ParkingLotManagementTest {
         parkingLotManagement.subscribe(subscriber2);
 
         fillTheParkingLotFully(parkingLotManagement) ;
-        Boolean eachSubscriberGotNotification = parkingLotManagement.allSubscribersGotNotification();
+        Boolean eachSubscriberGotNotification = parkingLotManagement.doesAllSubsribersGetNotification();
 
 
         assertTrue(eachSubscriberGotNotification);

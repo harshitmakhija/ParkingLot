@@ -7,7 +7,7 @@ public class Attendant {
 
     private HashMap<Car,ParkingLotManagement> carVsLotHashmap = new HashMap<>() ;
 
-    void AssignParkingLot(ParkingLotManagement parkingLot)
+    void assignParkingLot(ParkingLotManagement parkingLot)
     {
         parkingLotManagementList.add(parkingLot) ;
     }
