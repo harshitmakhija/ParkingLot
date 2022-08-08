@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,8 +74,8 @@ class ParkingLotManagementTest {
     @Test
     void shouldReturnTrueWhenAllTheSubscribersGetTheNotificationThatLotIsFull() {
 
-        Subscriber subscriber1 = new ParkingLotOwner("Asmit") ;
-        Subscriber subscriber2 = new SecurityPersonnel("Harshit") ;
+        Subscriber subscriber1 =  new ParkingLotOwner("Asmit") ;
+        Subscriber subscriber2 =  new SecurityPersonnel("Harshit") ;
         parkingLotManagement.subscribe(subscriber1);
         parkingLotManagement.subscribe(subscriber2);
 
@@ -82,6 +84,8 @@ class ParkingLotManagementTest {
 
 
         assertTrue(eachSubscriberGotNotification);
+//        Mockito.verify(subscriber1).isParkingLotFull();
+//        Mockito.verify(subscriber2).notify();
     }
 
 
