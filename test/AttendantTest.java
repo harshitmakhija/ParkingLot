@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,7 @@ public class AttendantTest {
         ArrayList<ParkingLotManagement> parkingLotManagementsList = new ArrayList<>();
 
         for (int parkingLot = 0; parkingLot < numberOfParkingLots; parkingLot++) {
-            parkingLotManagementsList.add(new ParkingLotManagement(spaceInEachLot, parkingLot));
+            parkingLotManagementsList.add(new ParkingLotManagement(spaceInEachLot, parkingLot+1));
         }
         return parkingLotManagementsList;
     }
@@ -42,9 +43,10 @@ public class AttendantTest {
             attendant.assignParkingLot(parkingLot);
         }
 
+        Strategy firstFreeParkingStrategy = new FirstFreeDistributionStrategy();
 
         Car car = new Car("NEF4435");
-        ParkResponse response = attendant.parkTheCarInTheParkingLot(car, "FIRST FREE DISTRIBUTION");
+        ParkResponse response = attendant.parkTheCarInTheParkingLot(car, firstFreeParkingStrategy);
 
 
         assertFalse(response.successfullyParked);
@@ -53,7 +55,7 @@ public class AttendantTest {
     }
 
     @Test
-    void shouldUnparkTheCarFromTheParkingLotHavingID2() {
+    void shouldUnparkTheCarFromTheParkingLotHavingID3() {
         ArrayList<ParkingLotManagement> emptyParkingLotList = getListOfEmptyParkingLots(3, 3);
 
         for (ParkingLotManagement parkingLot : emptyParkingLotList) {
@@ -62,42 +64,45 @@ public class AttendantTest {
         fillTheParkingLotFully(attendant.getParkingLotManagementList().get(0));
         fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
 
+        Strategy firstFreeParkingStrategy = new FirstFreeDistributionStrategy();
+
         Car car = new Car("CIN383");
-        attendant.parkTheCarInTheParkingLot(car, "FIRST FREE DISTRIBUTION");
+        attendant.parkTheCarInTheParkingLot(car, firstFreeParkingStrategy);
 
         UnparkResponse response = attendant.unparkTheCarFromTheParkingLot(car);
 
         assertTrue(response.successfullyUnparked);
-        assertEquals("CAR IS UNPARKED FROM PARKING LOT 2", response.additionalComments);
+        assertEquals("CAR IS UNPARKED FROM PARKING LOT 3", response.additionalComments);
     }
 
     @Test
     void shouldParkTheCarsEvenly() {
-        ArrayList<ParkingLotManagement> emptyParkingLotList = getListOfEmptyParkingLots(3, 5);
+        List<ParkingLotManagement> emptyParkingLotList = getListOfEmptyParkingLots(2, 2);
         for (ParkingLotManagement parkingLot : emptyParkingLotList) {
             attendant.assignParkingLot(parkingLot);
         }
 
-        int noOfIncomingCars = 7;
-        for (int count = 0; count < noOfIncomingCars; count++) {
-            Car car = new Car("CIN383" + count);
-            attendant.parkTheCarInTheParkingLot(car, "EVEN DISTRIBUTION");
-        }
+        Strategy evenDistributionStrategy = new EvenDistributionParkingStrategy();
+
+        Car car1 = new Car("UP320994");
+        Car car2 = new Car("TU32094");
+        Car car3 = new Car("PP320914");
+        Car car4 = new Car("LP320977");
+        attendant.parkTheCarInTheParkingLot(car1, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car2, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car3, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car4, evenDistributionStrategy);
+
+        int car1ParkingLotNumber = attendant.carVsLotHashmap.get(car1).parkingLotID;
+        int car2ParkingLotNumber = attendant.carVsLotHashmap.get(car2).parkingLotID;
+        int car3ParkingLotNumber = attendant.carVsLotHashmap.get(car3).parkingLotID;
+        int car4ParkingLotNumber = attendant.carVsLotHashmap.get(car4).parkingLotID;
 
 
-
-
-        int noOfCarsInParkingLot1 = attendant.parkingLotManagementList.get(0).noOfCarsInTheParkingLot();
-        int noOfCarsInParkingLot2 = attendant.parkingLotManagementList.get(1).noOfCarsInTheParkingLot();
-        int noOfCarsInParkingLot3 = attendant.parkingLotManagementList.get(2).noOfCarsInTheParkingLot();
-        Integer[] actualArray = {noOfCarsInParkingLot1, noOfCarsInParkingLot2, noOfCarsInParkingLot3};
-        Arrays.sort(actualArray, Collections.reverseOrder());
-        Integer[] expectedArray = {3, 2, 2};
-
-
-
-
-        assertTrue(Arrays.equals(actualArray, expectedArray));
+        assertEquals(1, car1ParkingLotNumber);
+        assertEquals(2, car2ParkingLotNumber);
+        assertEquals(1, car3ParkingLotNumber);
+        assertEquals(2, car4ParkingLotNumber);
     }
 
     @Test
@@ -111,16 +116,18 @@ public class AttendantTest {
         Car car3 = new Car("XYZ383");
         Car car4 = new Car("DEL383");
 
-        attendant.parkTheCarInTheParkingLot(car1, "EVEN DISTRIBUTION");
-        attendant.parkTheCarInTheParkingLot(car2, "EVEN DISTRIBUTION");
-        attendant.parkTheCarInTheParkingLot(car3, "EVEN DISTRIBUTION");
-        attendant.parkTheCarInTheParkingLot(car4, "EVEN DISTRIBUTION");
+        Strategy evenDistributionStrategy = new EvenDistributionParkingStrategy();
+
+        attendant.parkTheCarInTheParkingLot(car1, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car2, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car3, evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car4, evenDistributionStrategy);
 
         attendant.unparkTheCarFromTheParkingLot(car2);
         attendant.unparkTheCarFromTheParkingLot(car4);
 
         Car car5 = new Car("UP383");
-        attendant.parkTheCarInTheParkingLot(car5,"EVEN DISTRIBUTION");
+        attendant.parkTheCarInTheParkingLot(car5,evenDistributionStrategy);
 
 
 

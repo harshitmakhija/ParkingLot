@@ -6,7 +6,7 @@ import java.util.List;
 public class ParkingLotManagement {
     private final int  MAX_SPACE ;
     private int spaceAvailable;
-    private final int parkingLotID ;
+    public int parkingLotID = 1;
     private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
     public ParkingLotManagement(int totalSpace, int parkingLotID)
