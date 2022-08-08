@@ -1,3 +1,5 @@
+package bike.rapido.paathshala;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +9,7 @@ public class Attendant {
 
     private HashMap<Car,ParkingLotManagement> carVsLotHashmap = new HashMap<>() ;
 
-    void assignParkingLot(ParkingLotManagement parkingLot)
+    public void assignParkingLot(ParkingLotManagement parkingLot)
     {
         parkingLotManagementList.add(parkingLot) ;
     }

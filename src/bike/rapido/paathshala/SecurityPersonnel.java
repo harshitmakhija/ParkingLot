@@ -1,8 +1,10 @@
+package bike.rapido.paathshala;
+
 public class SecurityPersonnel implements Subscriber{
     private String name ;
     private Boolean isParkingLotFull ;
 
-    SecurityPersonnel(String securityName)
+    public SecurityPersonnel(String securityName)
     {
         this.name = securityName ;
         this.isParkingLotFull = false ;

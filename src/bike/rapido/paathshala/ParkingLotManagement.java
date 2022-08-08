@@ -1,3 +1,5 @@
+package bike.rapido.paathshala;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ public class ParkingLotManagement {
     private final int parkingLotID ;
     private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
-    ParkingLotManagement(int totalSpace, int parkingLotID)
+    public ParkingLotManagement(int totalSpace, int parkingLotID)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
@@ -23,7 +25,7 @@ public class ParkingLotManagement {
         return this.spaceAvailable ;
     }
 
-    int getMaxSpace()
+    public int getMaxSpace()
     {
         return MAX_SPACE ;
     }
@@ -89,7 +91,7 @@ public class ParkingLotManagement {
         }
     }
 
-    boolean doesAllSubsribersGetNotification()
+    public boolean doesAllSubsribersGetNotification()
     {
         boolean allGotNotified = true ;
 

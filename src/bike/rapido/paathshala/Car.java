@@ -1,3 +1,5 @@
+package bike.rapido.paathshala;
+
 public class Car {
     private String carNumber  ;
     private Boolean isParked = false;
@@ -13,7 +15,7 @@ public class Car {
     void setAsUnParked(){
         this.isParked = false ;
     }
-    Car(String number){
+    public Car(String number){
         this.carNumber = number ;
     }
 

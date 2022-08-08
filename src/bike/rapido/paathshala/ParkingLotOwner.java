@@ -1,8 +1,10 @@
+package bike.rapido.paathshala;
+
 public class ParkingLotOwner implements Subscriber {
     private String name ;
     private Boolean isParkingLotFull ;
 
-    ParkingLotOwner(String ownerName)
+    public ParkingLotOwner(String ownerName)
     {
         this.name = ownerName ;
         this.isParkingLotFull = false ;
