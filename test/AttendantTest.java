@@ -43,7 +43,7 @@ public class AttendantTest {
 
 
         Car car = new Car("NEF4435");
-        ParkResponse response = attendant.parkTheCarInTheParkingLot(car);
+        ParkResponse response = attendant.parkTheCarInTheParkingLot(car, "FIRST FREE DISTRIBUTION");
 
 
         assertFalse(response.successfullyParked);
@@ -62,7 +62,7 @@ public class AttendantTest {
         fillTheParkingLotFully(attendant.getParkingLotManagementList().get(1));
 
         Car car = new Car("CIN383");
-        attendant.parkTheCarInTheParkingLot(car);
+        attendant.parkTheCarInTheParkingLot(car, "FIRST FREE DISTRIBUTION");
 
         UnparkResponse response = attendant.unparkTheCarFromTheParkingLot(car);
 
@@ -80,7 +80,7 @@ public class AttendantTest {
         int noOfIncomingCars = 7;
         for (int count = 0; count < noOfIncomingCars; count++) {
             Car car = new Car("CIN383" + count);
-            attendant.parkTheCarInTheParkingLot(car);
+            attendant.parkTheCarInTheParkingLot(car, "EVEN DISTRIBUTION");
         }
 
 
@@ -110,16 +110,16 @@ public class AttendantTest {
         Car car3 = new Car("XYZ383");
         Car car4 = new Car("DEL383");
 
-        attendant.parkTheCarInTheParkingLot(car1);
-        attendant.parkTheCarInTheParkingLot(car2);
-        attendant.parkTheCarInTheParkingLot(car3);
-        attendant.parkTheCarInTheParkingLot(car4);
+        attendant.parkTheCarInTheParkingLot(car1, "EVEN DISTRIBUTION");
+        attendant.parkTheCarInTheParkingLot(car2, "EVEN DISTRIBUTION");
+        attendant.parkTheCarInTheParkingLot(car3, "EVEN DISTRIBUTION");
+        attendant.parkTheCarInTheParkingLot(car4, "EVEN DISTRIBUTION");
 
         attendant.unparkTheCarFromTheParkingLot(car2);
         attendant.unparkTheCarFromTheParkingLot(car4);
 
         Car car5 = new Car("UP383");
-        attendant.parkTheCarInTheParkingLot(car5);
+        attendant.parkTheCarInTheParkingLot(car5,"EVEN DISTRIBUTION");
 
 
 
@@ -129,7 +129,6 @@ public class AttendantTest {
         Integer[] actualArray = {noOfCarsInParkingLot1, noOfCarsInParkingLot2};
         Arrays.sort(actualArray, Collections.reverseOrder());
         Integer[] expectedArray = {2, 1};
-
 
 
 

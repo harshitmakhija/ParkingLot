@@ -17,7 +17,7 @@ public class Attendant {
         return this.parkingLotManagementList ;
     }
 
-    public ParkingLotManagement getFreeParkingLot()
+    public ParkingLotManagement getFreeParkingLotForEvenDistribution()
     {
         ParkingLotManagement parkingLot = null;
         int maxSpaceAvailable = 0;
@@ -35,11 +35,37 @@ public class Attendant {
         return parkingLot ;
     }
 
-    public ParkResponse parkTheCarInTheParkingLot(Car car)
+    public ParkingLotManagement getFirstFreeParkingLot()
+    {
+        for(int index =0 ; index < parkingLotManagementList.size() ; index++)
+        {
+            if(parkingLotManagementList.get(index).checkIfParkingSlotAvailable()){
+                return parkingLotManagementList.get(index) ;
+            }
+        }
+        return null ;
+    }
+
+
+    public ParkResponse parkTheCarInTheParkingLot(Car car, String parkingPattern)
     {
         ParkResponse response = new ParkResponse();
 
-        ParkingLotManagement parkingLot = getFreeParkingLot() ;
+        ParkingLotManagement parkingLot = null ;
+
+        if(parkingPattern.equals("EVEN DISTRIBUTION")) {
+            parkingLot = getFreeParkingLotForEvenDistribution();
+        }
+        else if(parkingPattern.equals("FIRST FREE DISTRIBUTION"))
+        {
+            parkingLot = getFirstFreeParkingLot() ;
+        }
+        else {
+            response.parkingLotID = -1 ;
+            response.successfullyParked = false ;
+            response.additionalComments = "NO SUCH PARKING PATTERN EXIST" ;
+            return response;
+        }
 
         if( parkingLot == null)
         {
