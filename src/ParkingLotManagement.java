@@ -4,15 +4,18 @@ import java.util.List;
 public class ParkingLotManagement {
     private final int  MAX_SPACE ;
     private int spaceAvailable;
-    private static int idCounter ;
     private final int parkingLotID ;
     private List<Subscriber> mySubscribers =  new ArrayList<>() ;
 
-    ParkingLotManagement(int totalSpace)
+    ParkingLotManagement(int totalSpace, int parkingLotID)
     {
         this.MAX_SPACE = totalSpace ;
         this.spaceAvailable = totalSpace ;
-        this.parkingLotID = idCounter++ ;
+        this.parkingLotID = parkingLotID ;
+    }
+
+    public int noOfCarsInTheParkingLot() {
+        return (this.MAX_SPACE-this.spaceAvailable);
     }
 
     public int getSpaceAvailable()
@@ -86,7 +89,7 @@ public class ParkingLotManagement {
         }
     }
 
-    boolean allSubscribersGotNotification()
+    boolean doesAllSubsribersGetNotification()
     {
         boolean allGotNotified = true ;
 

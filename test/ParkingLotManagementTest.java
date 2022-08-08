@@ -21,7 +21,7 @@ class ParkingLotManagementTest {
     @BeforeEach
     void setUp() {
         car = new Car("DL2194 GG") ;
-        parkingLotManagement =new ParkingLotManagement(2);
+        parkingLotManagement =new ParkingLotManagement(2, 777);
     }
 
     @Test
@@ -72,16 +72,18 @@ class ParkingLotManagementTest {
     @Test
     void shouldReturnTrueWhenAllTheSubscribersGetTheNotificationThatLotIsFull() {
 
-        Subscriber subscriber1 = new ParkingLotOwner("Asmit") ;
-        Subscriber subscriber2 = new SecurityPersonnel("Harshit") ;
+        Subscriber subscriber1 =  new ParkingLotOwner("Asmit") ;
+        Subscriber subscriber2 =  new SecurityPersonnel("Harshit") ;
         parkingLotManagement.subscribe(subscriber1);
         parkingLotManagement.subscribe(subscriber2);
 
         fillTheParkingLotFully(parkingLotManagement) ;
-        Boolean eachSubscriberGotNotification = parkingLotManagement.allSubscribersGotNotification();
+        Boolean eachSubscriberGotNotification = parkingLotManagement.doesAllSubsribersGetNotification();
 
 
         assertTrue(eachSubscriberGotNotification);
+//        Mockito.verify(subscriber1).isParkingLotFull();
+//        Mockito.verify(subscriber2).notify();
     }
 
 
