@@ -1,7 +1,7 @@
-import bike.rapido.paathshala.*;
+package bike.rapido.paathshala;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,8 +104,6 @@ class ParkingLotManagementTest {
         parkingLotManagement.unparkTheCar(car1);
 
         Boolean statusWhenSpaceIsAvailableAgain = subscriber1.isParkingLotFull() ;
-
-
 
         assertTrue(statusWhenFull);
         assertFalse(statusWhenSpaceIsAvailableAgain);
