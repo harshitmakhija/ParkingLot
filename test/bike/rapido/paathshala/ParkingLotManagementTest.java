@@ -83,8 +83,6 @@ class ParkingLotManagementTest {
 
 
         assertTrue(eachSubscriberGotNotification);
-//        Mockito.verify(subscriber1).isParkingLotFull();
-//        Mockito.verify(subscriber2).notify();
     }
 
 
