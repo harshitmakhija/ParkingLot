@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,14 +16,14 @@ class EvenDistributionParkingStrategyTest {
         ArrayList<ParkingLotManagement> parkingLotManagementsList = new ArrayList<>();
 
         for (int parkingLot = 0; parkingLot < numberOfParkingLots; parkingLot++) {
-            parkingLotManagementsList.add(new ParkingLotManagement(spaceInEachLot, parkingLot+1));
+            parkingLotManagementsList.add(new ParkingLotManagement(spaceInEachLot, parkingLot + 1));
         }
         return parkingLotManagementsList;
     }
 
     @BeforeEach
     void setUp() {
-            attendant = new Attendant();
+        attendant = new Attendant();
     }
 
     @Test
@@ -64,33 +62,31 @@ class EvenDistributionParkingStrategyTest {
         for (ParkingLotManagement parkingLot : emptyParkingLotList) {
             attendant.assignParkingLot(parkingLot);
         }
+        Strategy evenDistributionStrategy = new EvenDistributionParkingStrategy();
+
         Car car1 = new Car("CIN383");
         Car car2 = new Car("ABC383");
         Car car3 = new Car("XYZ383");
         Car car4 = new Car("DEL383");
 
-        Strategy evenDistributionStrategy = new EvenDistributionParkingStrategy();
 
         attendant.parkTheCarInTheParkingLot(car1, evenDistributionStrategy);
         attendant.parkTheCarInTheParkingLot(car2, evenDistributionStrategy);
         attendant.parkTheCarInTheParkingLot(car3, evenDistributionStrategy);
         attendant.parkTheCarInTheParkingLot(car4, evenDistributionStrategy);
-
         attendant.unparkTheCarFromTheParkingLot(car2);
         attendant.unparkTheCarFromTheParkingLot(car4);
 
         Car car5 = new Car("UP383");
-        attendant.parkTheCarInTheParkingLot(car5,evenDistributionStrategy);
+        attendant.parkTheCarInTheParkingLot(car5, evenDistributionStrategy);
 
 
+        int car1ParkingLotNumber = attendant.carVsLotHashmap.get(car1).parkingLotID;
+        int car3ParkingLotNumber = attendant.carVsLotHashmap.get(car3).parkingLotID;
+        int car5ParkingLotNumber = attendant.carVsLotHashmap.get(car5).parkingLotID;
 
-        int noOfCarsInParkingLot1 = attendant.parkingLotManagementList.get(0).noOfCarsInTheParkingLot();
-        int noOfCarsInParkingLot2 = attendant.parkingLotManagementList.get(1).noOfCarsInTheParkingLot();
-        Integer[] actualArray = {noOfCarsInParkingLot1, noOfCarsInParkingLot2};
-        Arrays.sort(actualArray, Collections.reverseOrder());
-        Integer[] expectedArray = {2, 1};
-
-
-        assertTrue(Arrays.equals(actualArray, expectedArray));
+        assertEquals(1, car1ParkingLotNumber);
+        assertEquals(1, car3ParkingLotNumber);
+        assertEquals(2, car5ParkingLotNumber);
     }
 }
